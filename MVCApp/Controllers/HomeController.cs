@@ -35,6 +35,26 @@ namespace MVCApp.Controllers
             ViewBag.Message = "Employee Sign Up";
             return View();
         }
+
+        public ActionResult ViewEmployees()
+        {
+            ViewBag.Message = "Employees List";
+            var data = EmployeeProcessor.LoadEmployees();
+            List<EmployeeModel> employees = new List<EmployeeModel>();
+            foreach(var row in data)
+            {
+                employees.Add(new EmployeeModel
+                {
+                    EmployeeId = row.EmployeeId,
+                    FirstName = row.FirstName,
+                    LastName = row.LastName,
+                    EmailAddress = row.EmailAddress,
+                    ConfirmEmail = row.EmailAddress
+
+                });
+            }
+            return View(employees);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Signup(EmployeeModel model)
